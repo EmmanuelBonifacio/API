@@ -1,29 +1,27 @@
+import "dotenv/config";
 import express from "express";
+import pkg from "@prisma/client";
+const { PrismaClient } = pkg;
+
+const prisma = new PrismaClient();
 
 const app = express();
 app.use(express.json());
-const users = [];
-// tipo de rota/metodo HTTP
-// Criar um usuario
-app.post("/usuarios", (req, res) => {
-  users.push(req.body);
-  //enviando uma resposta
+
+app.post("/usuarios", async (req, res) => {
+  await prisma.user.create({
+    data: {
+      email: req.body.email,
+      name: req.body.name,
+      age: req.body.age,
+    },
+  });
   res.status(201).json(req.body);
 });
-// Listar todos os usuarios
-app.get("/usuarios", (req, res) => {
-  //enviando uma resposta
+
+app.get("/usuarios", async (req, res) => {
+  const users = await prisma.user.findMany();
   res.status(200).json(users);
 });
 
 app.listen(3000);
-
-/* Criar API de usuario
-
-
-  
-  -
-  
-  -Deletar um usuarios
-*/
-// banco de dados, EmmanuelBoni_db_user,botezTb28Yi3FkJb
