@@ -1,17 +1,19 @@
 import express from "express";
 
 const app = express();
+app.use(express.json());
 const users = [];
 // tipo de rota/metodo HTTP
+// Criar um usuario
 app.post("/usuarios", (req, res) => {
-  console.log(req);
-
-  res.send("ok, deu certo!");
+  users.push(req.body);
+  //enviando uma resposta
+  res.status(201).json(req.body);
 });
-
+// Listar todos os usuarios
 app.get("/usuarios", (req, res) => {
   //enviando uma resposta
-  res.send("ok, deu certo!");
+  res.status(200).json(users);
 });
 
 app.listen(3000);
@@ -19,8 +21,9 @@ app.listen(3000);
 /* Criar API de usuario
 
 
-  -Criar um usuario
-  -Listar todos os usuarios
-  -Editar um usuarios
+  
+  -
+  
   -Deletar um usuarios
 */
+// banco de dados, EmmanuelBoni_db_user,botezTb28Yi3FkJb
